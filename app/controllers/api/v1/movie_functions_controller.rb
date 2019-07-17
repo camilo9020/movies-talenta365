@@ -1,4 +1,4 @@
-class Api::V1::MovieFunctionsController < ApplicationController
+class Api::V1::MovieFunctionsController < Api::BaseController
 
   def by_date
     movie_functions = MovieFunction.functions_by_day(params[:date])

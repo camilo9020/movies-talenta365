@@ -1,6 +1,4 @@
-class Api::V1::MoviesController < ApplicationController
-  protect_from_forgery except: :create
-
+class Api::V1::MoviesController < Api::BaseController
   def index
     movies = Movie.all
     if movies.any?

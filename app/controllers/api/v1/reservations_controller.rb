@@ -1,4 +1,4 @@
-class Api::V1::ReservationsController < ApplicationController
+class Api::V1::ReservationsController < Api::BaseController
   def create
     reservation = Reservation.new(reservation_params)
     if reservation.save
