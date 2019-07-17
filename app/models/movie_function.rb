@@ -20,4 +20,6 @@
 class MovieFunction < ApplicationRecord
   belongs_to :movie
   has_many :reservations
+
+  validates_presence_of :date, on: :create, message: "can't be blank"
 end

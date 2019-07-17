@@ -21,4 +21,6 @@
 
 class Reservation < ApplicationRecord
   belongs_to :movie_function
+
+  validates_presence_of :name, :email, :number_identification, on: :create, message: "can't be blank"
 end

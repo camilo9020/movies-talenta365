@@ -12,4 +12,6 @@
 
 class Movie < ApplicationRecord
   has_many :movie_functions
+
+  validates_presence_of :name, :description, :url_image, on: :create, message: "can't be blank"
 end
