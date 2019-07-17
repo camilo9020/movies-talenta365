@@ -12,6 +12,8 @@
 
 FactoryBot.define do
   factory :movie do
-    
+    name { Faker::Movie }
+    description { 'Movie description' }
+    url_imagen { 'movie_url_image' }
   end
 end
