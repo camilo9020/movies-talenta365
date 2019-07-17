@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_202124) do
+ActiveRecord::Schema.define(version: 2019_07_17_202651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,5 +31,16 @@ ActiveRecord::Schema.define(version: 2019_07_17_202124) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "movie_function_id"
+    t.string "name"
+    t.string "email"
+    t.string "identification_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_function_id"], name: "index_reservations_on_movie_function_id"
+  end
+
   add_foreign_key "movie_functions", "movies"
+  add_foreign_key "reservations", "movie_functions"
 end
