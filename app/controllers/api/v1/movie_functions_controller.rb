@@ -3,7 +3,7 @@ class Api::V1::MovieFunctionsController < ApplicationController
   def by_date
     movie_functions = MovieFunction.functions_by_day(params[:date])
     if movie_functions.any?
-      render json: { movies: movie_functions }, statue: :ok
+      render json: movie_functions, statue: :ok
     else
       render json: { error: 'There is not movie functions for this day' }, status: 400
     end
