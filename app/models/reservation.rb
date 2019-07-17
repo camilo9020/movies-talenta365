@@ -22,5 +22,16 @@
 class Reservation < ApplicationRecord
   belongs_to :movie_function
 
-  validates_presence_of :name, :email, :number_identification, on: :create, message: "can't be blank"
+  validates_presence_of :name, :email, :identification_number, on: :create, message: "can't be blank"
+  validate :seats_available?,  on: :create
+
+
+  private
+
+  def seats_available?
+    seats_taken = Reservation.where(movie_function_id: movie_function_id).count
+    if seats_taken > 10
+      errors.add(:base, 'There is not available seats for the functions')
+    end
+  end
 end
