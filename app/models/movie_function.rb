@@ -20,6 +20,6 @@
 class MovieFunction < ApplicationRecord
   belongs_to :movie
   has_many :reservations
-
   validates_presence_of :date, on: :create, message: "can't be blank"
+  scope :functions_by_day, -> (date) { where(date: date.to_time.at_beginning_of_day.utc..Time.now.utc)}
 end
