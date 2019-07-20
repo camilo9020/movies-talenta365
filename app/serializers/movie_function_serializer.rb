@@ -1,7 +1,15 @@
 class MovieFunctionSerializer < ActiveModel::Serializer
-  attributes :movie_name, :date, :id
+  attributes :name, :function_date, :id, :url_imagen
 
-  def movie_name
+  def name
     object.movie.name
+  end
+
+  def function_date
+    object.date.to_date
+  end
+
+  def url_imagen
+    object.movie.url_imagen
   end
 end
