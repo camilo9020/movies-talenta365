@@ -1,0 +1,31 @@
+<template>
+  <div class="four wide column">
+    <div class="ui card movie-item">
+      <div class="image">
+        <img :src="movie.url_imagen">
+      </div>
+      <div class="content">
+        <a class="header">{{ movie.name }}</a>
+
+      </div>
+      <div class="extra content">
+        <button class="ui primary button" @click="openModal">Reservar</button>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    props: ['movie', 'index'],
+    methods: {
+      openModal() {
+        this.$emit('openModal', this.index);
+      }
+    }
+  }
+</script>
+<style>
+  .movie-item.image {
+    height: 300px;
+  }
+</style>
