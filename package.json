@@ -3,11 +3,17 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^4.0.7",
+    "jquery": "^3.4.1",
+    "ts-vue-plugin": "^0.1.2",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-resource": "^1.5.1",
+    "vue-template-compiler": "^2.6.10",
+    "vue-turbolinks": "^2.0.4"
   },
   "devDependencies": {
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
     "webpack-dev-server": "^3.7.2"
   }
 }
