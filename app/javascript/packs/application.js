@@ -15,4 +15,23 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-console.log('Hello World from Webpacker')
+import Vue from 'vue';
+import VueResource from 'vue-resource';
+import TurbolinksAdapter from 'vue-turbolinks';
+import MoviesComponent from '../components/MoviesComponent.vue.erb';
+
+Vue.use(VueResource);
+Vue.use(TurbolinksAdapter);
+
+document.addEventListener('turbolinks:load', () => {
+  var moviesElement = document.getElementById('movies-view');
+
+  if (moviesElement != null) {
+    window.vueapp = new Vue({
+      render: (h) => h(MoviesComponent),
+    });
+    vueapp.$mount('#movies-view');
+  }
+});
+
+
