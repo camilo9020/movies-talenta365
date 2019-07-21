@@ -14,6 +14,11 @@
     <div class="pusher">
       <div class="ui two column grid">
         <div class="row">
+          <div class="ui success message" v-if="successMessage">
+            {{ successMessage }}
+          </div>
+        </div>
+        <div class="row">
             <div class="column">
               <div class="ui left floated">
                 <h1>Peliculas</h1>
@@ -24,7 +29,7 @@
                  <i class="plus icon"></i> Crear nueva pelicula
               </button>
             </div>
-            <create-movie :selectedDate="selectedDate"></create-movie>
+            <create-movie :selectedDate="selectedDate" @success="updateSuccessMessage"></create-movie>
         </div>
         <div class="row">
           <div class="ui form">
@@ -39,80 +44,86 @@
         <div class="segment" v-if="movieFunctions.length === 0">
           <p>No hay funciones para esta fecha</p>
         </div>
-        <movie-item v-for="(movie, index) in movieFunctions" :key="movie.id" :movie="movie" :index="index" v-if="movieFunctions.length > 0" @openModal="openReservationModal(index)">
+        <movie-item v-for="(movie, index) in movieFunctions" :key="movie.id" :movie="movie" :index="index" v-if="movieFunctions.length > 0" @openModal="openReservationModal">
         </movie-item>
-        <create-reservation></create-reservation>
-
+        <create-reservation :movieFunctionId="selectedMovieId"  @success="updateSuccessMessage"></create-reservation>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MovieItem from './MovieItem.vue.erb';
-import CreateMovie from './CreateMovie.vue';
-import CreateReservation from './CreateReservation.vue.erb';
-export default {
-  data: function () {
-    return {
-      movieFunctions: {},
-      selectedDate: this.formatedDate(new Date()),
-    }
-  },
-  components: {
-    MovieItem, CreateMovie, CreateReservation
-  },
-  created() {
-    this.getMovieFunctions(this.selectedDate)
-  },
-  methods: {
-    getMovieFunctions(date) {
-      var url_request = '/api/v1/movie_functions/' + date
-      this.$http.get(url_request).then((response) => {
-        this.movieFunctions = response.body.movie_functions
-        console.log(this.movieFunctions)
-      })
+  import MovieItem from './MovieItem.vue';
+  import CreateMovie from './CreateMovie.vue';
+  import CreateReservation from './CreateReservation.vue';
+  export default {
+    data: function () {
+      return {
+        movieFunctions: {},
+        selectedDate: this.formatedDate(new Date()),
+        selectedMovieId: null,
+        successMessage: null
+      }
     },
-    openCreateMovieModal() {
-      $('.ui.modal.create-movie')
-        .modal('show')
-      ;
-      $('.ui.dropdown').dropdown({
-        allowAdditions: true,
-      });
+    components: {
+      MovieItem, CreateMovie, CreateReservation
     },
-    openReservationModal(index) {
-      $('.ui.modal.create-reservation')
-        .modal('show')
-    },
-    changeDate() {
+    created() {
       this.getMovieFunctions(this.selectedDate)
     },
-    formatedDate(date) {
-      let year = date.getFullYear()
-      let month = this.formatedInfo(date.getMonth()+1)
-      let day = this.formatedInfo(date.getDate())
-      return `${year}-${month}-${day}`
-    },
-    formatedInfo(number) {
-      if (number.toString().length > 1) {
-        return number
-      } else {
-        return `0${number}`
+    methods: {
+      getMovieFunctions(date) {
+        var url_request = '/api/v1/movie_functions/' + date
+        this.$http.get(url_request).then((response) => {
+          this.movieFunctions = response.body.movie_functions
+          console.log(this.movieFunctions)
+        })
+      },
+      openCreateMovieModal() {
+        $('.ui.modal.create-movie')
+          .modal('show')
+        ;
+        $('.ui.dropdown').dropdown({
+          allowAdditions: true,
+        });
+      },
+      openReservationModal(id) {
+        this.selectedMovieId = id
+        $('.ui.modal.create-reservation')
+          .modal('show')
+      },
+      changeDate() {
+        this.getMovieFunctions(this.selectedDate)
+      },
+      formatedDate(date) {
+        let year = date.getFullYear()
+        let month = this.formatedInfo(date.getMonth()+1)
+        let day = this.formatedInfo(date.getDate())
+        return `${year}-${month}-${day}`
+      },
+      formatedInfo(number) {
+        if (number.toString().length > 1) {
+          return number
+        } else {
+          return `0${number}`
+        }
+      },
+      updateSuccessMessage(message) {
+        this.successMessage = message
+        setTimeout(() => {
+           this.successMessage = null
+        }, 3000);
       }
     }
   }
-}
 </script>
 
 <style scoped>
-.ui.inverted.menu {
-  background: #3394e0;
-}
-.pusher {
-  margin-left: 250px;
-  margin-right: 100px;
-}
-
-
+  .ui.inverted.menu {
+    background: #3394e0;
+  }
+  .pusher {
+    margin-left: 250px;
+    margin-right: 100px;
+  }
 </style>

@@ -4,7 +4,7 @@ class Api::V1::ReservationsController < Api::BaseController
     if reservation.save
       render json: { message: 'The reservation was create' }, status: :ok
     else
-      render json: { error: reservation.errors }, status: 400
+      render json: { errors: reservation.errors }, status: 400
     end
   end
 

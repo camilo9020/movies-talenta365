@@ -23,6 +23,7 @@ class Reservation < ApplicationRecord
   belongs_to :movie_function
 
   validates_presence_of :name, :email, :identification_number, on: :create, message: "can't be blank"
+  validates_uniqueness_of :email, scope: [:movie_function_id], message: "No puede hacer más reservaciones con este mail"
   validate :seats_available?,  on: :create
 
 
@@ -31,7 +32,7 @@ class Reservation < ApplicationRecord
   def seats_available?
     seats_taken = Reservation.where(movie_function_id: movie_function_id).count
     if seats_taken > 10
-      errors.add(:base, 'There is not available seats for the functions')
+      errors.add(:base, 'Ya no hay asientos disponibles para esta función')
     end
   end
 end
