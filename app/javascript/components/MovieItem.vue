@@ -16,10 +16,10 @@
 </template>
 <script>
   export default {
-    props: ['movie', 'index'],
+    props: ['movie'],
     methods: {
       openModal() {
-        this.$emit('openModal', this.index);
+        this.$emit('openModal', this.movie.id);
       }
     }
   }
