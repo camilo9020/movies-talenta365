@@ -14,7 +14,7 @@ class Api::V1::MoviesController < Api::BaseController
       MovieFunction.create_multiple_functions(movie, params[:movie][:function_dates])
       render json: { movie: movie }, status: :ok
     else
-      render json: { error: movie.errors }, status: 400
+      render json: { errors: movie.errors }, status: 400
     end
   end
 

@@ -7,6 +7,7 @@
     <div class="content">
       <div class="description">
         <div class="row">
+          <error-messages :errors="errors" v-if="errors"></error-messages>
           <div class="col-12">
             <form action="" class="ui form">
               <div class="inline field">
@@ -47,40 +48,39 @@
     </div>
   </div>
 </template>
-
 <script>
+  import ErrorMessages from './ErrorMessages.vue';
   export default {
     props: ['selectedDate'],
+    components: { ErrorMessages },
     data: function() {
       return {
         name: null,
         description: null,
         url_imagen: null,
         function_dates: [],
+        errors: null
       }
     },
     methods: {
       submitForm() {
-        debugger;
         let movieJsonData = { name: this.name, description: this.description, url_imagen: this.url_imagen, function_dates: this.function_dates }
-        $.ajax({
-          method: 'POST',
-          url: 'api/v1/movies',
-          dataType: "application/json",
-          data: { movie : movieJsonData }
-        }).done((response) => {
+        $.post('api/v1/movies.js',  { movie : movieJsonData }).done((response) => {
+          this.movieCreated()
           this.resetForm()
-          $('.close.icon').click()
+          this.hideModal()
         }).fail((error) => {
-          this.resetForm()
-          console.log(error)
+          this.errors = error.responseJSON.errors
         })
       },
       resetForm() {
-        var self = this;
-        Object.keys(this.data.form).forEach(function(key,index) {
-          self.data.form[key] = '';
-        });
+        Object.assign(this.$data, this.$options.data.apply(this))
+      },
+      hideModal() {
+        $('.ui.modal.create-movie').modal('hide')
+      },
+      movieCreated() {
+        this.$emit('success', 'La Pelicula fue creada exitosamente')
       }
     },
     computed: {
@@ -93,7 +93,7 @@
     }
   }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
  .field {
    label {
      width: 70px !important;
