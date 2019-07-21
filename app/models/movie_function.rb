@@ -22,4 +22,11 @@ class MovieFunction < ApplicationRecord
   has_many :reservations, dependent: :destroy
   validates_presence_of :date, on: :create, message: "can't be blank"
   scope :functions_by_day, -> (date) { where(date: date.to_date.at_beginning_of_day.utc..date.to_date)}
+
+  def self.create_multiple_functions(movie, dates)
+    dates.each do |date|
+      create(movie: movie, date: date)
+    end
+  end
+
 end

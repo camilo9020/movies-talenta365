@@ -24,7 +24,7 @@
                  <i class="plus icon"></i> Crear nueva pelicula
               </button>
             </div>
-            <create-movie></create-movie>
+            <create-movie :selectedDate="selectedDate"></create-movie>
         </div>
         <div class="row">
           <div class="ui form">
@@ -50,7 +50,7 @@
 
 <script>
 import MovieItem from './MovieItem.vue.erb';
-import CreateMovie from './CreateMovie.vue.erb';
+import CreateMovie from './CreateMovie.vue';
 import CreateReservation from './CreateReservation.vue.erb';
 export default {
   data: function () {
@@ -77,6 +77,9 @@ export default {
       $('.ui.modal.create-movie')
         .modal('show')
       ;
+      $('.ui.dropdown').dropdown({
+        allowAdditions: true,
+      });
     },
     openReservationModal(index) {
       $('.ui.modal.create-reservation')
