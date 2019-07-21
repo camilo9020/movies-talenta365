@@ -17,18 +17,28 @@
 
 import Vue from 'vue';
 import VueResource from 'vue-resource';
+import VueRouter from 'vue-router';
 import TurbolinksAdapter from 'vue-turbolinks';
-import MoviesComponent from '../components/MoviesComponent.vue.erb';
+import App from '../App.vue';
+import { routes } from '../Routes.js';
 
 Vue.use(VueResource);
+Vue.use(VueRouter);
 Vue.use(TurbolinksAdapter);
 
 document.addEventListener('turbolinks:load', () => {
   var moviesElement = document.getElementById('movies-view');
 
   if (moviesElement != null) {
+    const router = new VueRouter({
+      mode: 'history',
+      routes: routes
+    });
+
+
     window.vueapp = new Vue({
-      render: (h) => h(MoviesComponent),
+      router,
+      render: (h) => h(App),
     });
     vueapp.$mount('#movies-view');
   }
