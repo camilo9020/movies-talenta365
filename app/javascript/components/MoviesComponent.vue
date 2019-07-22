@@ -43,11 +43,12 @@
   import MovieItem from './MovieItem.vue';
   import CreateMovie from './CreateMovie.vue';
   import CreateReservation from './CreateReservation.vue';
+  import { sharedMethods } from '../shared/SharedMethods';
   export default {
     data: function () {
       return {
         movieFunctions: {},
-        selectedDate: this.formatedDate(new Date()),
+        selectedDate: sharedMethods.formatedDate(new Date()),
         selectedMovieId: null,
         successMessage: null
       }
@@ -81,19 +82,6 @@
       },
       changeDate() {
         this.getMovieFunctions(this.selectedDate)
-      },
-      formatedDate(date) {
-        let year = date.getFullYear()
-        let month = this.formatedInfo(date.getMonth()+1)
-        let day = this.formatedInfo(date.getDate())
-        return `${year}-${month}-${day}`
-      },
-      formatedInfo(number) {
-        if (number.toString().length > 1) {
-          return number
-        } else {
-          return `0${number}`
-        }
       },
       updateSuccessMessage(message) {
         this.successMessage = message
