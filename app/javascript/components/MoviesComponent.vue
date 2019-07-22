@@ -29,9 +29,11 @@
           </div>
         </div>
       </div>
-      <movie-item v-for="(movie, index) in movieFunctions" :key="movie.id" :movie="movie" :index="index" v-if="movieFunctions.length > 0" @openModal="openReservationModal">
-      </movie-item>
       <create-reservation :movieFunctionId="selectedMovieId"  @success="updateSuccessMessage"></create-reservation>
+    </div>
+    <div class="ui stackable four column grid"  v-if="movieFunctions.length > 0">
+      <movie-item v-for="(movie, index) in movieFunctions" :key="movie.id" :movie="movie" :index="index" @openModal="openReservationModal">
+      </movie-item>
     </div>
     <div class="row" v-if="movieFunctions.length === 0">
       <div class="ui info message">
@@ -66,7 +68,6 @@
         var url_request = '/api/v1/movie_functions/' + date
         this.$http.get(url_request).then((response) => {
           this.movieFunctions = response.body.movie_functions
-          console.log(this.movieFunctions)
         })
       },
       openCreateMovieModal() {
@@ -91,6 +92,11 @@
            this.successMessage = null
         }, 3000);
       }
+    },
+    updated: ()=>{
+      $('.special.cards .image').dimmer({
+        on: 'hover'
+      });
     }
   }
 </script>

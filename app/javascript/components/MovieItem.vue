@@ -1,15 +1,20 @@
 <template>
-  <div class="four wide column">
-    <div class="ui card movie-item">
-      <div class="image">
-        <img :src="movie.url_imagen">
-      </div>
-      <div class="content">
-        <a class="header">{{ movie.name }}</a>
-
-      </div>
-      <div class="extra content">
-        <button class="ui primary button" @click="openModal">Reservar</button>
+  <div class="column">
+    <div class="ui special cards">
+      <div class="card">
+        <div class="blurring dimmable image">
+          <div class="ui dimmer">
+            <div class="content">
+              <div class="center">
+                <div class="ui inverted button" @click="openModal">Reservar</div>
+              </div>
+            </div>
+          </div>
+          <img :src="movie.url_imagen">
+        </div>
+        <div class="content">
+          <a class="header">{{ movie.name }}</a>
+        </div>
       </div>
     </div>
   </div>
