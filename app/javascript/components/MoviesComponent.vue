@@ -29,12 +29,14 @@
           </div>
         </div>
       </div>
-      <div class="segment" v-if="movieFunctions.length === 0">
-        <p>No hay funciones para esta fecha</p>
-      </div>
       <movie-item v-for="(movie, index) in movieFunctions" :key="movie.id" :movie="movie" :index="index" v-if="movieFunctions.length > 0" @openModal="openReservationModal">
       </movie-item>
       <create-reservation :movieFunctionId="selectedMovieId"  @success="updateSuccessMessage"></create-reservation>
+    </div>
+    <div class="row" v-if="movieFunctions.length === 0">
+      <div class="ui info message">
+        No hay funciones para esta fecha
+      </div>
     </div>
   </div>
 </template>
