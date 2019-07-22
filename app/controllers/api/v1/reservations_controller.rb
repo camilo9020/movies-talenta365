@@ -1,4 +1,10 @@
 class Api::V1::ReservationsController < Api::BaseController
+
+  def index
+    reservations = Reservation.by_day(params[:date])
+    render json: reservations, statue: :ok
+  end
+
   def create
     reservation = Reservation.new(reservation_params)
     if reservation.save

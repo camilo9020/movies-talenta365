@@ -26,6 +26,10 @@ class Reservation < ApplicationRecord
   validates_uniqueness_of :email, scope: [:movie_function_id], message: "No puede hacer más reservaciones con este mail"
   validate :seats_available?,  on: :create
 
+  def self.by_day(date)
+    function_ids = MovieFunction.where(date: date).pluck(:id)
+    where(movie_function_id: function_ids)
+  end
 
   private
 
